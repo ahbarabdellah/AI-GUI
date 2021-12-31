@@ -1,2 +1,2 @@
 # AI-GUI
-by: AHBAR Abdellah &amp; ABDELLAOUI Hamid 
+Created by: AHBAR Abdellah &amp; ABDELLAOUI Hamid 
