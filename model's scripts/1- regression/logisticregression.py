@@ -18,6 +18,8 @@ def NullClearner(df):
         df.fillna(df.mode()[0],inplace=True)
         return df
     else:return df
+    
+    
 def EncodeX(df):
     return pd.get_dummies(df)
 def EncodeY(df):
