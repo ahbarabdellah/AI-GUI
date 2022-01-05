@@ -4,7 +4,8 @@ HAMID ABDELLAOUI :
 - define the functions of data preprocessing outside the model's scripts files (import it when need it)
 - the libraries that are imported in all models (such as numpy pandas ....) should be called outside the scripts models files
 - 
-
+- sat dik functions NullClearner() w dik EncodeX(df) hado rah m3awdin f tt les models je propose n définihom f un fichier separé
+ nsemiwh 'datapreprocessing' w nb9aw n importiwh lfo9 fkolla model safi bla manb9aw kolla marra n definiw dok functions
 
 
 
