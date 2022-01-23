@@ -1,4 +1,4 @@
-from AI-GUI.app.folder.file import func_name
+from utilities import *
 
 import warnings 
 import numpy as np 
@@ -27,5 +27,4 @@ def logisticregression(path,features,target):
         # Build Model here
     model = LogisticRegression(random_state = 123,n_jobs = -1)
     model.fit(x_train, y_train)
-    return model
-    
+    return model,x_train,x_test,y_train,y_test
