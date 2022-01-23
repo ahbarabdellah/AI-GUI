@@ -1,3 +1,6 @@
+import numpy as np 
+import pandas as pd 
+from sklearn.preprocessing import LabelEncoder 
 
 def NullClearner(df):
     if(isinstance(df, pd.Series) and (df.dtype in ["float64","int64"])):
@@ -20,5 +23,3 @@ def EncodeY(df):
         EncodedT=[xi for xi in range(len(un_EncodedT))]
         print("Encoded Target: {} to {}".format(un_EncodedT,EncodedT))
         return df
-    
-    
