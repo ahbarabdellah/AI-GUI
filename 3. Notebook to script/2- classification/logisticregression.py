@@ -1,3 +1,5 @@
+from AI-GUI.app.folder.file import func_name
+
 import warnings 
 import numpy as np 
 import pandas as pd 
@@ -10,29 +12,6 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report,plot_confusion_matrix
 warnings.filterwarnings('ignore')
 
-def NullClearner(df):
-    if(isinstance(df, pd.Series) and (df.dtype in ["float64","int64"])):
-        df.fillna(df.mean(),inplace=True)
-        return df
-    elif(isinstance(df, pd.Series)):
-        df.fillna(df.mode()[0],inplace=True)
-        return df
-    else:return df
-    
-    
-def EncodeX(df):
-    return pd.get_dummies(df)
-def EncodeY(df):
-    if len(df.unique())<=2:
-        return df
-    else:
-        un_EncodedT=np.sort(pd.unique(df), axis=-1, kind='mergesort')
-        df=LabelEncoder().fit_transform(df)
-        EncodedT=[xi for xi in range(len(un_EncodedT))]
-        print("Encoded Target: {} to {}".format(un_EncodedT,EncodedT))
-        return df
-    
-    
 def logisticregression(path,features,target):
     file_path=path
     df=pd.read_csv(file_path)
