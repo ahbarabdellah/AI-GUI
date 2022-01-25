@@ -43,7 +43,5 @@ def linar_reg(path,features,target):
     score1 = model.score(x_test,y_test)*100    #r2_score
     score2 = mean_absolute_error(y_test,y_pred) #r2_score
     score3 = mean_squared_error(y_test,y_pred)
-    score4 = mean_absolute_error(y_test,y_pred)
-    score5 = np.sqrt(mean_squared_error(y_test,y_pred))
 
-    return score1, score2, score3, score4, score5, model
+    return score1, score2, score3, model
