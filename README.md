@@ -4,17 +4,17 @@
 
 ## Structure:
 
-> `▽ Scripts`
->> `↳ classificationmodels.py`  
->> `↳ regressionmodels.py`  
->> `↳ utilities.py`  
+> ▽ Scripts
+>> ↳ classificationmodels.py  
+>> ↳ regressionmodels.py  
+>> ↳ utilities.py  
 
-> `▽ TestData`  
->> `▹ Classification`  
->> `▹ Regression`  
->> `▹ TSA`  
+> ▽ TestData  
+>> ▹ Classification  
+>> ▹ Regression  
+>> ▹ TSA  
 
-> `▹ main.py` 
+> ▹ main.py 
 ### To-Do :
 
 [-] CORELATION Index
