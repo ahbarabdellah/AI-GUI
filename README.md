@@ -5,4 +5,4 @@ by: AHBAR Abdellah &amp; ABDELLAOUI Hamid
 
 [-] CORELATION Index
 
-[-] all models as script
+[X] all models as script : Done
