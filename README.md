@@ -7,4 +7,4 @@ by: AHBAR Abdellah &amp; ABDELLAOUI Hamid
 
 [X] all models as script : Done
 
-[-] the libraries that are imported in all models (such as numpy pandas ....) should be called outside the scripts models files
+[X] the libraries that are imported in all models (such as numpy pandas ....) should be called outside the scripts models files
