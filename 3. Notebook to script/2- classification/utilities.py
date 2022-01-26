@@ -21,5 +21,4 @@ def EncodeY(df):
         un_EncodedT=np.sort(pd.unique(df), axis=-1, kind='mergesort')
         df=LabelEncoder().fit_transform(df)
         EncodedT=[xi for xi in range(len(un_EncodedT))]
-        print("Encoded Target: {} to {}".format(un_EncodedT,EncodedT))
         return df
