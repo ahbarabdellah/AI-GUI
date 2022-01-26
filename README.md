@@ -3,7 +3,6 @@
 <i> <b> AHBAR Abdellah </i> </b> &amp; <i> <b>ABDELLAOUI Hamid </i> </b>
 
 ## Structure:
-<code>
 
 > `▽ Scripts`
 >> `↳ classificationmodels.py`  
@@ -16,8 +15,6 @@
 >> `▹ TSA`  
 
 > `▹ main.py` 
-
-</code>
 ### To-Do :
 
 [-] CORELATION Index
