@@ -9,7 +9,7 @@
 >> ↳ regressionmodels.py  
 >> ↳ utilities.py  
 
-> ▽ TestData  
+> ▽ static/Data  
 >> ▹ Classification  
 >> ▹ Regression  
 >> ▹ TSA  
