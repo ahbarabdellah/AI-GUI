@@ -6,8 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <!--Dropzone file uploader-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.css">
     <!--jquery-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <!--icons link-->
@@ -15,7 +13,12 @@
     <!-- bootstrap-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
         integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css">
+
     <!--end bootstrap-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/css/bootstrap-select.min.css">
+
     <link rel="stylesheet" href="../static/css/style.css">
     <title>{% block title %}{% endblock %}</title>
 </head>
@@ -25,20 +28,26 @@
 
     <!--navbar-->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <a class="navbar-brand" style="color: rgb(16, 190, 190); font-size: 20px;font-weight: bolder;" href="/">NOCODE ML</a> &nbsp; &nbsp; &nbsp; &nbsp;
+            <ul class="navbar-nav ">
+                &nbsp; &nbsp; &nbsp; &nbsp;
                 <li class="nav-item {% if request.endpoint=='home' %}active{%endif %}">
                     <a class="nav-link" href="/">Home </a>
                 </li>
+                &nbsp; &nbsp; &nbsp; &nbsp;
                 <li class="nav-item {% if request.endpoint=='UnderstandML' %}active{%endif %}">
                     <a class="nav-link" href="UnderstandML">
                         <p>UnderstandML</p>
                     </a>
                 </li>
+                &nbsp; &nbsp; &nbsp; &nbsp;
                 <li class="nav-item {% if request.endpoint=='About' %}active{%endif %}">
                     <a class="nav-link" href="About">
                         <p>About</p>
@@ -46,6 +55,7 @@
                 </li>
             </ul>
         </div>
+    </div>
     </nav>
     <!--navbar end-->
 
@@ -55,28 +65,22 @@
 
 
 
-    <br> <br>
-    <br> <br>
-    <br> <br> <br> <br>
+    <br>
+
     <!-- Footer -->
-    <footer class="footer bg-dark text-center col">
-        <ul class="social-icons icon-circle list-unstyled list-inline">
-
-            <li> <a href="#"><i class="fa fa-facebook"></i></a></li>
-            <li> <a href="#"><i class="fa fa-github"></i></a></li>
-            <li> <a href="#"><i class="fa fa-linkedin"></i></a></li>
-            <li> <a href="#"><i class="fa fa-globe"></i></a></li>
-        </ul>
+    <div class="footer-padding"></div>
+    <footer class="footer bg-dark footer-dark text-center">
         <!-- Copyright -->
-        <div class="text-center text-white ">
-
-            © {{ now.year }} Copyright:
-            <a class="text-success" href="https://ahbarabdellah.github.io/">Abdellah</a> &
-            <a class="text-success" href="https://hamidabdellaoui.netlify.app/">Hamid</a>
+        <div style="margin: 10px;
+        color: rgb(16, 190, 190) !important;">
+            © {{ now.year }} Copyrights || All rights reserved
+            <a class="text-light" href="https://ahbarabdellah.github.io/">Abdellah</a> &
+            <a class="text-light" href="https://hamidabdellaoui.netlify.app/">Hamid</a>
         </div>
         <!-- Copyright -->
     </footer>
-
+  <button onclick="topFunction()" id="myBtn" title="Go to top">&nbsp;^&nbsp;</button>
+  
     <!--footer end-->
 
     
@@ -89,8 +93,9 @@
         integrity="sha384-fQybjgWLrvvRgtW6bFlB7jaZrFsaBXjsOMm/tB9LTS58ONXgqbR9W8oWht/amnpF"
         crossorigin="anonymous"></script>
 
-    <!--dropzone.js file upload-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.7.1/min/dropzone.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.7.5/js/bootstrap-select.min.js"></script>
     <script>
         $(document).ready(function () {
             $(".nav-tabs a").click(function () {
@@ -99,6 +104,28 @@
         });
     </script>
 
+    
+<!--*** Dark mode widget start***-->
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+<script>
+    const options = {
+        bottom:'50%',
+        right:'30px',
+        left: 'unset', // default: 'unset'
+        time: '0.3s', // default: '0.3s'
+        mixColor: '#fff', // default: '#fff'
+        backgroundColor: '#fff',  // default: '#fff'
+        buttonColorDark: '#100f2c',  // default: '#100f2c'
+        buttonColorLight: '#fff', // default: '#fff'
+        label: '🌓', // default: ''
+        autoMatchOsTheme: true // default: true
+    }
+    const darkmode = new Darkmode(options);
+    darkmode.showWidget();
+</script>
+<!--*** Dark mode widget end***-->
+
+<script src="../static/js/index.js"></script>
 
 </body>
 

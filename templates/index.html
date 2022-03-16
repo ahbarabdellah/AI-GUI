@@ -1,9 +1,10 @@
-{% extends "base.html" %} {% block title %}Home Page{% endblock %} {% block
+{% extends "base.html" %} {% block title %}NOCODE ML {% endblock %} {% block
 content %}
 
 <br>
 <h2 class="text-center">Welcome</h2>
 <br>
+<h6>Upload/drag your dataset (csv file)</h6>
 <br>
 
 <!--
@@ -37,24 +38,20 @@ content %}
 </div>-->
 
 
-<form action="{{ url_for('choseparams') }}" class="" id="" method="POST" enctype=multipart/form-data>
-    <input type="file" name="file" id="" accept=".csv">
-   <button type="submit" class="btn mybtn btn-lg">Submit</button>
-</form> <script type="text/javascript">
-    Dropzone.options.myDropzone = {
-        autoProcessQueue: false,
-        uploadMultiple: false,
-        maxFiles: 1,
-        acceptedFiles: '.csv',
-        init: function () {
-            myDropzone = this;
-            this.element.querySelector("button[type=submit]").addEventListener("click", function (e) {
-                e.preventDefault();
-                e.stopPropagation();
-                myDropzone.processQueue();
-            });
-        }
-    };
-</script>
-{% endblock %}
+<form action="{{ url_for('choseparams') }}" class="row" id="" method="POST" enctype=multipart/form-data>
+    <div class="wrapper">
+        <div class="col-12 file-upload">
+            <input type="file" name="file" id="ff" accept=".csv" onchange="document.getElementById('jss').innerHTML =document.getElementById('ff').value.split('\\').pop()">
+            <i class="fa fa-arrow-up"></i>
+        </div>
+    </div>
+    <p class="col-12" id="jss">
+        &nbsp; &nbsp;
+    </p>
+    <div class="col-12">
+        <br> 
+        <button type="submit" class="btn mybtn btn-lg">Submit</button>
+    </div>
+</form>
 
+{% endblock %}

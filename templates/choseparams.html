@@ -10,37 +10,48 @@ content %}
       </form> -->
 
 <br>
-<div class="text-center row ">
-    <div class="col-6"> Shape : {{ mytext }} </div>
-</div>
+
 <br>
 <form action="{{ url_for('build')}}" method="POST" enctype=multipart/form-data>
-    
-    <div class="row text-center">
+
+    <div class="row text-center  {% if request.endpoint=='build' %}hidden{%endif %}">
         <div class="col-4">
-            Chooose your target variable: <br>
-            <select name="target">
-                {% for f in features %}
-                <option>{{ f }}</option>
-                {% endfor %}
-            </select>
+            filename: {{ filename }}
         </div>
         <div class="col-4">
-            <input type="text" name="filename" value="{{ filename }}">
+            Shape : {{ mytext }}
         </div>
-        
         <div class="col-4">
-            Chooose the features: <br>
-            <select name="features" multiple>
-                {% for f in features %}
-                <option>{{ f }}</option>
-                {% endfor %}
-            </select>
+            size : mn b3d
         </div>
 
+        <div class="hidden">
+            File name: <input class="" type="text" name="filename" value="{{ filename }}" draggable="false">
+        </div>
+        <br> <br>
         <div class="col-4">
+            Chooose your target variable: <br>
+            <section class="form-group">
+                <select name="target"  class="form-control selectpicker">
+                    {% for f in features %}
+                    <option>{{ f }}</option>
+                    {% endfor %}
+                </select>
+            </section>
+        </div>
+        <div class="col-4">
+            Chooose the features(max:40): <br>
+            <section class="form-group">
+                <select  id="myMulti" name="features"  data-style="btn-default" class="selectpicker form-control" multiple data-max-options="40">>
+                    {% for f in features %}
+                    <option>{{ f }}</option>
+                    {% endfor %}
+                </select>
+            </section>
+        </div>
+        <div class="col-4 form-group" >
             choose the model : <br>
-            <select name="model" id="">
+            <select name="model" id=""  class="form-control selectpicker">
                 <option>
                     GBRegressor
                 </option>
@@ -51,10 +62,20 @@ content %}
         </div>
 
     </div>
-<br> <br>
-    <button type="submit" class="btn mybtn btn-lg">Fit !</button>
+    <br> <br>
+    <button type="submit" class="{% if request.endpoint=='build' %}hidden{%endif %} btn mybtn btn-lg">let's go!</button>
 </form>
-<div class="text-center row ">
-    <div class="col-6">accuracy: {{ accuracy }} <br> r2:{{ r2 }} <br> score2: {{ score2 }} <br> score3:{{ score3 }} </div>
+<div class="row justify-content-between  {% if request.endpoint=='choseparams' %}hidden{%endif %}">
+    <div class="col-6">accuracy :</div>
+    <div class="col-6"> {{ accuracy }} </div>
+    <div class="col-6">r2 :</div>
+    <div class="col-6"> {{ r2 }}</div>
+    <div class="col-6">score2 :</div>
+    <div class="col-6"> {{ score2 }} </div>
+    <div class="col-6"> score3 :</div>
+    <div class="col-6">{{ score3 }}</div>
+
 </div>
+
+<a href="/" class=" {% if request.endpoint=='choseparams' %}hidden{%endif %} btn mybtn btn-lg">Home </a>
 {% endblock %}

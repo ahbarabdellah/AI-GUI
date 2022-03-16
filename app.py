@@ -1,3 +1,4 @@
+from fileinput import filename
 import sys 
 import os
 sys.path.append(os.path.abspath("./static/Scripts"))
@@ -7,14 +8,22 @@ from flask import Flask, redirect, url_for, render_template,request
 from datetime import datetime
 import pandas as pd
 from werkzeug.utils import secure_filename 
-
+from time import time, sleep
 app = Flask(__name__)
 
 
 uploads_dir = os.path.join(app.instance_path, 'uploads')
 os.makedirs(uploads_dir, exist_ok=True,)
 
-
+def getfilename():
+    while True:
+        sleep(60 - time()%60)
+        try:
+            return request.files['file'].filename
+            break
+        except:
+            return 'no file'
+            continue
     
 ## to get current year
 @app.context_processor
@@ -44,8 +53,8 @@ def choseparams():
     df = pd.read_csv(path)
     shape=df.shape
     myfeatures=df.columns
-    print('haaaaaa')
-    return render_template("choseparams.html", mytext=shape, features=myfeatures, filename=uploaded_file.filename)
+    filename=uploaded_file.filename
+    return render_template("choseparams.html", mytext=shape, features=myfeatures, filename=filename)
 
 
 @app.route("/build",methods=['POST'])
