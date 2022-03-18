@@ -22,6 +22,10 @@
 
 [-] CORELATION Index
 
+[-] Feaaturizer
+
+[-] More parameters to customize
+
 [-] Time series 
 
 [-] DL 
