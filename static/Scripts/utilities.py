@@ -3,7 +3,8 @@ import pandas as pd
 from sklearn.preprocessing import LabelEncoder 
 from sklearn.model_selection import train_test_split 
 from sklearn.metrics import r2_score, mean_absolute_error, mean_squared_error 
-
+import seaborn as se
+import matplotlib.pyplot as plt
 
 def NullClearner(df):
     if(isinstance(df, pd.Series) and (df.dtype in ["float64","int64"])):
@@ -42,7 +43,12 @@ def preproccessAndSplit(df,features,target):
         X[i]=NullClearner(X[i])
     X=EncodeX(X)
     Y=NullClearner(Y)
-
+    
+    matrix = np.triu(X.corr())
+    se.heatmap(X.corr(), annot=True, linewidths=.5,  mask=matrix)
+    imgname=str("static/images/img.png")
+    plt.savefig(imgname)
+    
     # -- Splitting the dataset into the Training set and Test set --
     x_train,x_test,y_train,y_test=train_test_split(X,Y,test_size=0.2,random_state=123)
     return x_train,x_test,y_train,y_test

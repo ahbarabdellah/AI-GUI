@@ -19,10 +19,10 @@ print('linear Regressor:\t\t',scores)
  ###################################################
  ##### saving the model with pickle ###############
 # loading library
-import pickle
-# create an iterator object with write permission - model.pkl
-with open('instance/models/model_pkl', 'wb') as files:
-    pickle.dump(model, files)
+# import pickle
+# # create an iterator object with write permission - model.pkl
+# with open('instance/models/model_pkl', 'wb') as files:
+#     pickle.dump(model, files)
 
 #####################################################################################
 #### classification

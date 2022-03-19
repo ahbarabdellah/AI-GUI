@@ -122,7 +122,7 @@ def build():
     with open('instance/models/'+'model'+str(i)+'.pkl', 'wb') as files:
         pickle.dump(model, files)
     accuracy, r2, score2, score3=scores
-    return render_template("choseparams.html", model_pkl=model_pkl, accuracy=accuracy, r2=r2, score2=score2, score3=score3,target=target,modelname=modelname)
+    return render_template("choseparams.html", model_pkl=model_pkl, accuracy=accuracy, r2=r2, score2=score2, score3=score3,target=target,modelname=modelname,imgurl="static/images/img"+str(i)+".png")
 
 
 @app.route("/About")
