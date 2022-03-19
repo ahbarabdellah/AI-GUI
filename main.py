@@ -16,7 +16,13 @@ target='SalePrice'
 
 scores, model = regressionmodels.linearregression(df,features,target)
 print('linear Regressor:\t\t',scores)
-
+ ###################################################
+ ##### saving the model with pickle ###############
+# loading library
+import pickle
+# create an iterator object with write permission - model.pkl
+with open('instance/models/model_pkl', 'wb') as files:
+    pickle.dump(model, files)
 
 #####################################################################################
 #### classification
@@ -27,3 +33,4 @@ target   = 'quality'
 
 scores, model = classificationmodels.RFClassifier(df,features,target)
 print('\nRandom forest Classifier: \t\t',scores[0])
+

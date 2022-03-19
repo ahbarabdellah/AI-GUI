@@ -112,6 +112,7 @@ content %}
     </div>
 </div>
 <br> <br>
-<a href="/" class=" {% if request.endpoint=='choseparams' %}hidden{%endif %} btn mybtn btn-lg">Home </a>
+<a href="{{ url_for('download') }}" style="font-size: larger; font-weight: bolder;" class=" {% if request.endpoint=='choseparams' %}hidden{%endif %} btn mybtn btn-lg">Save model </a>
+<a href="/"  style="font-size: larger;" class=" {% if request.endpoint=='choseparams' %}hidden{%endif %} btn mybtn btn-lg">Home </a>
 <br> <br><br> <br>
 {% endblock %}
