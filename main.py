@@ -14,8 +14,8 @@ df=pd.read_csv(path)
 features=['MSSubClass','MSZoning','LotFrontage','LotArea','Street','Neighborhood','HouseStyle','YearBuilt','RoofStyle','Foundation','BedroomAbvGr','Functional','Fireplaces','GarageType','GarageYrBlt','GarageFinish','GarageCars','GarageArea','GarageQual','GarageCond','PoolArea','PoolQC']
 target='SalePrice'
 
-scores, model = regressionmodels.GBRegressor(df,features,target)
-print('Random Forest Regressor:\t\t',scores)
+scores, model = regressionmodels.linearregression(df,features,target)
+print('linear Regressor:\t\t',scores)
 
 
 #####################################################################################

@@ -1,4 +1,5 @@
 from fileinput import filename
+from fnmatch import fnmatch
 import sys 
 import os
 sys.path.append(os.path.abspath("./static/Scripts"))
@@ -10,6 +11,8 @@ import pandas as pd
 from werkzeug.utils import secure_filename 
 from time import time, sleep
 app = Flask(__name__)
+
+i=0
 
 
 uploads_dir = os.path.join(app.instance_path, 'uploads')
@@ -38,9 +41,6 @@ def inject_now():
 def too_large(e):
     return "File is too large", 413
 
-# @app.errorhandler(13)
-# def too_large(e):
-#     return "nothing was submitted", 13
 
 @app.route("/")
 def home():
@@ -54,54 +54,61 @@ def UnderstandML():
 
 @app.route("/choseparams",methods=['POST'])
 def choseparams():
+    global i ;
     uploaded_file = request.files['file']
+    filename=str(i)+'.csv'
+    if uploaded_file.filename =='':
+        return render_template('error0.html')
     if uploaded_file.filename != '':
-        uploaded_file.save(os.path.join(uploads_dir, secure_filename(uploaded_file.filename)))
-    path="instance/uploads/"+str(uploaded_file.filename)
+        uploaded_file.save(os.path.join(uploads_dir, secure_filename(filename)))
+        i+=1
+    path="instance/uploads/"+str(filename)
     df = pd.read_csv(path)
     shape=df.shape
     myfeatures=df.columns
-    filename=uploaded_file.filename
-    return render_template("choseparams.html",mymodels=allmodels, mytext=shape, features=myfeatures, filename=filename)
+    fname=uploaded_file.filename
+    return render_template("choseparams.html",mymodels=allmodels, mytext=shape, features=myfeatures,filename0=fname, filename=path, counter=i)
 
 @app.route("/build",methods=['POST'])
 def build():
-    uploaded_file = request.form['filename']
-    path="instance/uploads/"+uploaded_file
+    path = request.form['filepath']
+    print(path)
     df = pd.read_csv(path)
     features = request.form.getlist('features')
-    print('choosed features',features)
+    if len(features)==0:
+        return render_template('error1.html')
+    
     target=request.form['target']
-    model=request.form['model']
-    if model=='logisticregression':
+    modelname=request.form['model']
+    if modelname=='logisticregression':
         scores, model = logisticregression(df,features,str(target))
-    if model=='KNClassifier':
+    if modelname=='KNClassifier':
         scores, model = KNClassifier(df,features,target)
-    if model=='DTClassifier':
+    if modelname=='DTClassifier':
         scores, model = DTClassifier(df,features,str(target))
-    if model=='perceptron':
+    if modelname=='perceptron':
         scores, model = perceptron(df,features,str(target))
-    if model=='scv':
+    if modelname=='scv':
         scores, model = scv(df,features,str(target))
-    if model=='LinearSvc':
+    if modelname=='LinearSvc':
         scores, model = LinearSvc(df,features,str(target))
-    if model=='RFClassifier':
+    if modelname=='RFClassifier':
         scores, model = RFClassifier(df,features,str(target))
-    if model=='linearregression':
+    if modelname=='linearregression':
         scores, model = linearregression(df,features,str(target))
-    if model=='DTRegressor':
+    if modelname=='DTRegressor':
         scores, model = DTRegressor(df,features,str(target))
-    if model=='GBRegressor':
+    if modelname=='GBRegressor':
         scores, model = GBRegressor(df,features,str(target))
-    if model=='KNRegressor':
+    if modelname=='KNRegressor':
         scores, model = KNRegressor(df,features,str(target))
-    if model=='LassoRegressor':
+    if modelname=='LassoRegressor':
         scores, model = LassoRegressor(df,features,str(target))
-    if model=='RFRegressor':
+    if modelname=='RFRegressor':
         scores, model = RFRegressor(df,features,str(target))
 
     accuracy, r2, score2, score3=scores
-    return render_template("choseparams.html", model=model, accuracy=accuracy, r2=r2, score2=score2, score3=score3)
+    return render_template("choseparams.html", model=model, accuracy=accuracy, r2=r2, score2=score2, score3=score3,target=target,modelname=modelname)
 
 
 @app.route("/About")

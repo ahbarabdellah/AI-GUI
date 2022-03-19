@@ -305,3 +305,8 @@ input[type='text'] {
 /* *{
   color: #f0f0f0;
 } */
+
+
+table, th, td {
+  border:1px solid rgb(14, 187, 135);
+}

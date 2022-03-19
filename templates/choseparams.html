@@ -10,13 +10,24 @@ content %}
       </form> -->
 
 <br>
-
+<div class="row {% if request.endpoint=='build' %}hidden{%endif %}">
+    <div class="col">Counter : {{ counter }}</div>
+    <div class="col text-danger"> Note:
+        <small>Pay attention to your chosen target and features according to the model u will use
+        </small>
+    </div>
+</div>
+<div class="row {% if request.endpoint=='choseparams' %}hidden{%endif %}">
+    <div class="col-6">CHOSEN MODEL : {{modelname}} </div>
+    <div class="col-6">THE TARGET VARIABLE : {{ target}} </div>
+</div>
 <br>
 <form action="{{ url_for('build')}}" method="POST" enctype=multipart/form-data>
 
+    <br>
     <div class="row text-center  {% if request.endpoint=='build' %}hidden{%endif %}">
         <div class="col-4">
-            filename: {{ filename }}
+            filename: {{ filename0 }}
         </div>
         <div class="col-4">
             Shape : {{ mytext }}
@@ -26,13 +37,13 @@ content %}
         </div>
 
         <div class="hidden">
-            File name: <input class="" type="text" name="filename" value="{{ filename }}" draggable="false">
+            File name: <input class="" type="text" name="filepath" value="{{ filename }}" draggable="false">
         </div>
         <br> <br>
         <div class="col-4">
             Chooose your target variable: <br>
             <section class="form-group">
-                <select name="target"  class="form-control selectpicker">
+                <select name="target" class="form-control selectpicker">
                     {% for f in features %}
                     <option>{{ f }}</option>
                     {% endfor %}
@@ -42,37 +53,65 @@ content %}
         <div class="col-4">
             Chooose the features(max:40): <br>
             <section class="form-group">
-                <select  id="myMulti" name="features"  data-style="btn-default" class="selectpicker form-control" multiple data-max-options="40">>
+                <select id="myMulti" name="features" data-style="btn-default" class="selectpicker form-control" multiple
+                    data-max-options="40">>
                     {% for f in features %}
                     <option>{{ f }}</option>
                     {% endfor %}
                 </select>
             </section>
         </div>
-        <div class="col-4 form-group" >
+        <div class="col-4 form-group">
             choose the model : <br>
-            <select name="model" id=""  class="form-control selectpicker">
+            <select name="model" id="" class="form-control selectpicker">
                 {% for f in mymodels %}
-                    <option>{{ f }}</option>
-                    {% endfor %}
+                <option>{{ f }}</option>
+                {% endfor %}
             </select>
         </div>
 
     </div>
-    <br> <br>
+    <br>
     <button type="submit" class="{% if request.endpoint=='build' %}hidden{%endif %} btn mybtn btn-lg">let's go!</button>
 </form>
-<div class="row justify-content-between  {% if request.endpoint=='choseparams' %}hidden{%endif %}">
-    <div class="col-6">accuracy :</div>
-    <div class="col-6"> {{ accuracy }} </div>
-    <div class="col-6">r2 :</div>
-    <div class="col-6"> {{ r2 }}</div>
-    <div class="col-6">score2 :</div>
-    <div class="col-6"> {{ score2 }} </div>
-    <div class="col-6"> score3 :</div>
-    <div class="col-6">{{ score3 }}</div>
+<div class="row d-flex justify-content-center {% if request.endpoint=='choseparams' %}hidden{%endif %}">
 
+    <div class="col-6">
+        <table style="width:100%">
+            <tr>
+                <th>Score</th>
+                <th>value</th>
+            </tr>
+            <tr>
+                <td>accuracy</td>
+                <td> {{ accuracy }} </td>
+            </tr>
+            <tr>
+                <td>r2_score</td>
+                <td> {{ r2 }}</td>
+            </tr>
+            <tr>
+                <td>r2_score</td>
+                <td> {{ r2 }}</td>
+            </tr>
+            <tr>
+                <td>mean_absolute_error</td>
+                <td> {{ score2 }} </td>
+            </tr>
+            <tr>
+                <td>mean_squared_error</td>
+                <td> {{ score3 }} </td>
+            </tr>
+
+        </table>
+
+    </div>
+
+    <div class="col-6">
+        <h1>here dessin</h1>
+    </div>
 </div>
-
+<br> <br>
 <a href="/" class=" {% if request.endpoint=='choseparams' %}hidden{%endif %} btn mybtn btn-lg">Home </a>
+<br> <br><br> <br>
 {% endblock %}
