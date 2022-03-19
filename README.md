@@ -22,7 +22,7 @@
 
 [-] CORELATION Index
 
-[-] Feaaturizer
+[-] Featurizer
 
 [-] More parameters to customize
 

@@ -52,12 +52,9 @@ content %}
         <div class="col-4 form-group" >
             choose the model : <br>
             <select name="model" id=""  class="form-control selectpicker">
-                <option>
-                    GBRegressor
-                </option>
-                <option>
-                    RFClassifier
-                </option>
+                {% for f in mymodels %}
+                    <option>{{ f }}</option>
+                    {% endfor %}
             </select>
         </div>
 
