@@ -1,20 +1,30 @@
 from fileinput import filename
 from fnmatch import fnmatch
+import io
 from flask import current_app, send_file, send_from_directory
 import sys 
 import os
 import pickle
+from static.Scripts.classificationmodels import *
+from static.Scripts.regressionmodels import *
+from static.Scripts.utilities import *
+from static.Scripts.utilities import scores
 sys.path.append(os.path.abspath("./static/Scripts"))
-from regressionmodels import *
-from classificationmodels import *
-from flask import Flask, redirect, url_for, render_template,request 
+
+from flask import Flask, render_template,request 
 from datetime import datetime
 import pandas as pd
 from werkzeug.utils import secure_filename 
-from time import time, sleep
 app = Flask(__name__)
 
-i=0
+
+import seaborn as se
+import matplotlib.pyplot as plt
+plt.switch_backend('agg')
+import numpy as np 
+
+
+k=0
 
 
 uploads_dir = os.path.join(app.instance_path, 'uploads')
@@ -23,18 +33,41 @@ os.makedirs(uploads_dir, exist_ok=True,)
 downloads_dir = os.path.join(app.instance_path, 'models')
 os.makedirs(downloads_dir, exist_ok=True,)
 
-def getfilename():
-    while True:
-        sleep(60 - time()%60)
-        try:
-            return request.files['file'].filename
-            break
-        except:
-            return 'no file'
-            continue
+
+def plotprevstest(k,y_test,x_test, model):
+    plt.plot(range(20),y_test[0:20], color = "green")
+    plt.plot(range(20),model.predict(x_test[0:20]), color = "red")
+    plt.legend(["Actual","prediction"]) 
+    plt.title("Predicted vs True Value")
+    imgurl ="static/images/"+str(k)+".png"
+    plt.savefig(imgurl)
+    plt.close()
+    return imgurl
+        
+def redgreen(k,y_test,x_test, model):
+    red = plt.scatter(np.arange(0,80,5),model.predict(x_test)[0:80:5],color = "red")
+    green = plt.scatter(np.arange(0,80,5),y_test[0:80:5],color = "green")
+    plt.title("Comparison of Regression Algorithms")
+    plt.xlabel("Index of Candidate")
+    plt.ylabel("target")
+    plt.legend((red,green),('Model', 'REAL'))
+    imgurl ="static/images/redgreen"+str(k)+".png"
+    plt.savefig(imgurl)
+    plt.close()
+    return imgurl
+
+def plotmatrix(df,k):
+    # plot
+    matrix = np.triu(df.corr())
+    fig = se.heatmap(df.corr(), annot=False, linewidths=.1, mask=matrix)
+    imgurl ="static/images/matrix"+str(k)+".png"
+    fig = fig.get_figure()
+    fig.savefig(imgurl, bbox_inches='tight')
+    plt.close()
+    return imgurl
     
-    
-allmodels=['logisticregression','KNClassifier','DTClassifier','perceptron', 'scv', 'LinearSvc', 'RFClassifier', 'linearregression', 'DTRegressor', 'GBRegressor', 'KNRegressor', 'LassoRegressor', 'RFRegressor']
+allmodels=['logisticregression',
+           'KNClassifier','DTClassifier','perceptron', 'scv', 'LinearSvc', 'RFClassifier', 'linearregression', 'DTRegressor', 'GBRegressor', 'KNRegressor', 'LassoRegressor', 'RFRegressor']
 
 
 ## to get current year
@@ -46,12 +79,10 @@ def inject_now():
 def too_large(e):
     return "File is too large", 413
 
-
-
 @app.route('/download', methods=['GET', 'POST'])
 def download():
     uploads = os.path.join(current_app.root_path, "instance/models")
-    model_pkl='model'+str(i)+'.pkl'
+    model_pkl='model'+str(k)+'.pkl'
     return send_from_directory(directory=downloads_dir, path=model_pkl, as_attachment=True)
 
 
@@ -60,32 +91,32 @@ def home():
     return render_template("index.html")
         
 
-
 @app.route("/UnderstandML")
 def UnderstandML():
     return render_template("UnderstandML.html")
 
 @app.route("/choseparams",methods=['POST'])
 def choseparams():
-    global i ;
+    global k ;
     uploaded_file = request.files['file']
-    i+=1
-    filename=str(i)+'.csv'
+    k+=1
+    filename=str(k)+'.csv'
     if uploaded_file.filename =='':
         return render_template('error0.html')
     if uploaded_file.filename != '':
         uploaded_file.save(os.path.join(uploads_dir, secure_filename(filename)))
     path="instance/uploads/"+str(filename)
-    df = pd.read_csv(path)
+    df = pd.read_csv(path,sep=",")
     shape=df.shape
     myfeatures=df.columns
     fname=uploaded_file.filename
-    return render_template("choseparams.html",mymodels=allmodels, mytext=shape, features=myfeatures,filename0=fname, filename=path, counter=i)
+    matriximgurl = plotmatrix(df,k)
+    return render_template("choseparams.html",mymodels=allmodels, mytext=shape, features=myfeatures,filename0=fname, filename=path,matriximgurl=matriximgurl,  counter=k)
 
 @app.route("/build",methods=['POST'])
 def build():
     path = request.form['filepath']
-    df = pd.read_csv(path)
+    df = pd.read_csv(path,sep=",")
     features = request.form.getlist('features')
     if len(features)==0:
         return render_template('error1.html')
@@ -93,36 +124,41 @@ def build():
     target=request.form['target']
     modelname=request.form['model']
     if modelname=='logisticregression':
-        scores, model = logisticregression(df,features,str(target))
+       X, x_test, y_test, model = logisticregression(df,features,str(target))
     if modelname=='KNClassifier':
-        scores, model = KNClassifier(df,features,target)
+       X, x_test, y_test, model = KNClassifier(df,features,target)
     if modelname=='DTClassifier':
-        scores, model = DTClassifier(df,features,str(target))
+       X, x_test, y_test, model = DTClassifier(df,features,str(target))
     if modelname=='perceptron':
-        scores, model = perceptron(df,features,str(target))
+       X, x_test, y_test, model = perceptron(df,features,str(target))
     if modelname=='scv':
-        scores, model = scv(df,features,str(target))
+       X, x_test, y_test, model = scv(df,features,str(target))
     if modelname=='LinearSvc':
-        scores, model = LinearSvc(df,features,str(target))
+       X, x_test, y_test, model = LinearSvc(df,features,str(target))
     if modelname=='RFClassifier':
-        scores, model = RFClassifier(df,features,str(target))
+       X, x_test, y_test, model = RFClassifier(df,features,str(target))
     if modelname=='linearregression':
-        scores, model = linearregression(df,features,str(target))
+       X, x_test, y_test, model = linearregression(df,features,str(target))
     if modelname=='DTRegressor':
-        scores, model = DTRegressor(df,features,str(target))
+       X, x_test, y_test, model = DTRegressor(df,features,str(target))
     if modelname=='GBRegressor':
-        scores, model = GBRegressor(df,features,str(target))
+       X, x_test, y_test, model = GBRegressor(df,features,str(target))
     if modelname=='KNRegressor':
-        scores, model = KNRegressor(df,features,str(target))
+       X, x_test, y_test, model = KNRegressor(df,features,str(target))
     if modelname=='LassoRegressor':
-        scores, model = LassoRegressor(df,features,str(target))
+       X, x_test, y_test, model = LassoRegressor(df,features,str(target))
     if modelname=='RFRegressor':
-        scores, model = RFRegressor(df,features,str(target))
-    model_pkl='model'+str(i)+'.pkl'
-    with open('instance/models/'+'model'+str(i)+'.pkl', 'wb') as files:
+       X, x_test, y_test, model = RFRegressor(df,features,str(target))
+    
+    
+    model_pkl='model'+str(k)+'.pkl'
+    with open('instance/models/'+'model'+str(k)+'.pkl', 'wb') as files:
         pickle.dump(model, files)
-    accuracy, r2, score2, score3=scores
-    return render_template("choseparams.html", model_pkl=model_pkl, accuracy=accuracy, r2=r2, score2=score2, score3=score3,target=target,modelname=modelname,imgurl="static/images/img"+str(i)+".png")
+        
+    accuracy, r2, score2, score3 = scores(x_test, y_test, model)
+    imgurl = plotprevstest(k,y_test,x_test, model)
+    redgreenurl = redgreen(k,y_test,x_test, model)
+    return render_template("choseparams.html", model_pkl=model_pkl, accuracy=accuracy, r2=r2, score2=score2, score3=score3,target=target,modelname=modelname,redgreen=redgreenurl,imgurl=imgurl)
 
 
 @app.route("/About")
