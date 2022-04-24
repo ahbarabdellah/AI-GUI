@@ -20,7 +20,14 @@
 
 ## To-Do :
 
-[-] CORELATION Index
+[-] 
+Classification metrics (refer to this article : https://www.neuraldesigner.com/blog/methods-binary-classification#TestingData) :
+ > 1. Confusion matrix
+ > 2. Binary classification tests
+ > 3. ROC curve.
+ > 4. Positive and negative rates
+ > 5. Cumulative gain.
+ > 6. Lift chart.
 
 [-] Featurizer
 
