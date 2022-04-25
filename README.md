@@ -19,9 +19,15 @@
 
 
 ## To-Do :
+Help user to do some basic feauture engineering
+[-] Featurizer (use pycaret maybe)
 
-[-] 
-Classification metrics (refer to this article : https://www.neuraldesigner.com/blog/methods-binary-classification#TestingData) :
+[-] separate Reg and classification webpages
+
+[-] Metrics 
+
+<br> ↳ Classification metrics 
+(refer to this article : https://www.neuraldesigner.com/blog/methods-binary-classification#TestingData) :
  > 1. Confusion matrix
  > 2. Binary classification tests
  > 3. ROC curve.
@@ -29,10 +35,9 @@ Classification metrics (refer to this article : https://www.neuraldesigner.com/b
  > 5. Cumulative gain.
  > 6. Lift chart.
 
-[-] Featurizer
+<br> ↳ Regression metrics 
+
 
 [-] More parameters to customize
 
 [-] Time series 
-
-[-] DL 
